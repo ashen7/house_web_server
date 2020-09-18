@@ -1,0 +1,486 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{% block title %}base{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% block css %}{% endblock %}
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="shortcut icon" href="//s1.ljcdn.com/hwke-pc-static/pc/lianjiafavicon.ico?_v=f148ea11da7d55e4a49978254b67882042446514" type="image/x-icon" />
+
+<script src="//s1.ljcdn.com/hwke-pc-static/pc/statics/dep/jquery-1.11/jquery.min.js?_v=f148ea11da7d55e4a49978254b67882042446514" crossorigin="anonymous"></script>
+
+
+<title>数据可视化</title>
+<meta name="description" content="链家美国房产网提供美国房产信息查询,专业美国房产经纪人全程帮助您在美国买房,实现您在美国买房置业的需求。" />
+<meta name="keywords" content="美国房产,美国买房,美国房地产" />
+
+
+<link rel="stylesheet" type="text/css" href="//s1.ljcdn.com/hwke-pc-static/pc/css/common-13f42725d95253210dab.css">
+
+
+    <link rel="stylesheet" type="text/css" href="//s1.ljcdn.com/hwke-pc-static/pc/css/haiwai/css/site/main~pages/site-0def42e5af89080eccee.css">
+
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="//s1.ljcdn.com/hwke-pc-static/dep/common-require/html5.js?_v=f148ea11da7d55e4a49978254b67882042446514"></script>
+<![endif]-->
+<script>
+function RESIZEIMG(b,k,l,m){var c=b.parentNode;var d=parseInt(c.offsetWidth)||k;var e=parseInt(c.offsetHeight)||l;var f=d/e;var g=b.naturalWidth||b.width;var h=b.naturalHeight||b.height;var i=g/h;var j="width";if(f<i){j="height";try{b.style["left"]="-"+parseInt(Math.abs((d-(g*e/h))/2))+"px"}catch(e){}}else if(m){try{b.style["top"]="-"+parseInt(Math.abs((e-(h*d/g))/2))+"px"}catch(e){}};b.style[j]="100%";};
+</script>
+<script>
+var _czc = _czc || [];
+_czc.push(["_setAccount", "1254525948"]);
+</script>
+</head>
+<body id="env" data-env="production">
+
+<nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
+            <span class="sr-only">切换导航条</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">二手房数据处理</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-nav">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/admin/" style="font-weight: bold">管理员主页</a></li>
+            <li class="active"><a href="/index/root_visual/" style="font-weight: bold">二手房大数据可视化</a></li>
+            <li class="active"><a href="/index/root_predict/" style="font-weight: bold">二手房AI估价</a></li>
+            <li class="active"><a href="/index/data_collect/" style="font-weight: bold">二手房数据采集</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+             {% if request.session.is_login %}
+                  <li><a href="#" style="font-weight: bold">Current Online：{{ request.session.user_name }}</a></li>
+                  <li><a href="/logout/" style="font-weight: bold">Sign Out</a></li>
+              {% else %}
+                  <li><a href="/login/" style="font-weight: bold">Sign In</a></li>
+                  <li><a href="/register/" style="font-weight: bold">Register</a></li>
+              {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+<!--    {% block content %}{% endblock %}-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+	<script type="text/javascript" src="//s1.ljcdn.com/hwke-pc-static/pc/runtime-d088c7d3af59323bd5ac.js" crossorigin="anonymous"></script>
+  <script
+    src='//s1.ljcdn.com/link-static/resource/plat_framework/fee/js/1.0.40/18ac616/index.js'
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    window.dt && dt.set({
+      pid: 'oversea_lianjia_pc',
+      is_test: false,
+      record: {
+        time_on_page: true, // 是否监控用户在线时长数据, 默认为true
+        performance: true, // 是否监控页面载入性能, 默认为true
+        js_error: true, //  是否监控页面报错信息, 默认为true
+        // 配置需要监控的页面报错类别, 仅在js_error为true时生效, 默认均为true(可以将配置改为false, 以屏蔽不需要上报的错误类别)
+        js_error_report_config: {
+          ERROR_RUNTIME: true, // js运行时报错
+          ERROR_SCRIPT: false, // js资源加载失败
+          ERROR_STYLE: false, // css资源加载失败
+          ERROR_IMAGE: false, // 图片资源加载失败
+          ERROR_AUDIO: true, // 音频资源加载失败
+          ERROR_VIDEO: true, // 视频资源加载失败
+          ERROR_CONSOLE: true, // vue运行时报错
+          ERROR_TRY_CATCH: true, // 未catch错误
+          // 自定义检测函数, 判断是否需要报告该错误
+          checkErrorNeedReport: function (desc, stack) {
+            // if (!/\/\/(s1\.ljcdn\.com\/)/.test(desc) &&
+            //     !/\/\/(s1\.ljcdn\.com\/)/.test(stack)) {
+            //     // 忽略：非ljcdn的报错
+            //     return false;
+            // }
+            if (/\/\/s1\.ljcdn\.com\/(link\-static\/resource\/plat_framework|m\-imsdk\/|vrlab|agent\-sj\-sdk)/.test(desc) ||
+                /\/\/s1\.ljcdn\.com\/(link\-static\/resource\/plat_framework|m\-imsdk\/|vrlab|agent\-sj\-sdk)/.test(stack)) {
+              // 忽略：灯塔|imsdk|vr js报错忽略
+              return false;
+            }
+            if (/(@user\-script|global code@|h5WillReAppear|\[native code\])/.test(stack) ||
+                /(Unhandled_Rejection)/.test(desc)) {
+                // 忽略：
+                // JSbridge 的报错，不影响交互
+                // 浏览器代码报错
+                return false;
+            }
+            if(/Script error\. at/.test(desc) && /no stack/.test(stack)){
+                return false;
+            }
+            return true;
+          }
+        }
+      },
+      version: 'f148ea11da7d55e4a49978254b67882042446514',
+      getPageType: function(location) {
+        const path = location.pathname;
+        if (/\/newhomes\/\w{2}\/\w+\.html/.test(path)) {
+          return '新房详情';
+        }
+        if (/\homes\/\w{2}\/\w+\.html/.test(path)) {
+          return '二手房详情';
+        }
+        return `${location.host}${location.pathname}`;
+      }
+    });
+  </script>
+
+<div class="header" style="position: relative;bottom: 20px">
+{#    <div class="lianjia-header site-header">#}
+{#  <div class="nav-wrap">#}
+{#    <div class="wrapper">#}
+{#      <div class="fr nav">#}
+{#        <div class="fr login">#}
+{#          <div class="login-panel typeUserInfo">#}
+{#  <script type="text/template" class="template" crossorigin="anonymous">#}
+{##}
+{#  </script>#}
+{##}
+{#</div>#}
+{#        </div>#}
+{#      </div>#}
+{#     </div>#}
+{#  </div>#}
+{#</div>#}
+
+{##}
+{#<div class="overseas-nav site-nav  lianjia ">#}
+{#  <div class="wrapper">#}
+{#    <div class="fl nation-box">#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+    <!--搜索sug-->
+    <div class="banner-text">
+    <div class="text">
+        <div class="tit" style="color:#FFF;font-size:45px">二手房数据可视化分析</div><div class="sub-tit" style="color:#FFF;font-size:20px">对爬取的数据进行清洗 预处理并分析</div>
+    </div>
+{#    <div class="more">#}
+{#    </div>#}
+</div>
+<br />
+    <br />
+    <br />
+<!-- 二手房 -->
+<div class="wrapper">
+    <div class="preferred">
+        <div class="list">
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/广州二手房单价最高Top20.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州二手房单价最高Top20.png" alt="广州二手房单价最高Top20">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州二手房单价最高Top20.png" target="_blank">
+                            <div class="name" style=";color: white"><dl>广州二手房单价最高Top20</dl></div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/广州二手房房屋户型占比情况.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州二手房房屋户型占比情况.png" alt="广州二手房房屋户型占比情况">
+                            <div class="price">
+
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州二手房房屋户型占比情况.png" target="_blank">
+                            <div class="name" style=" ;color: white">广州二手房房屋户型占比情况</div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/广州各区域二手房平均建筑面积.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州各区域二手房平均建筑面积.png" alt="广州各区域二手房平均建筑面积">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州各区域二手房平均建筑面积.png" target="_blank">
+                            <div class="name" style=" ;color: white">广州各区域二手房平均建筑面积</div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 新房 -->
+<div class="wrapper">
+    <div class="preferred">
+        <div class="t-name">
+        </div>
+        <div class="list">
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/广州各区域二手房房源数量.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州各区域二手房房源数量.png" alt="广州各区域二手房房源数量">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州各区域二手房房源数量.png" target="_blank">
+                            <div class="name" style=" ;color: white">广州各区域二手房房源数量</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            <div class="icon">
+                    <a class="icon_box" href="/static/images/广州二手房数据词云.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州二手房数据词云.png" alt="广州二手房数据词云">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州二手房数据词云.png" target="_blank">
+                            <div class="name" style=" ;color: white">广州二手房数据词云</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            <div class="icon">
+                    <a class="icon_box" href="/static/images/广州二手房装修占比情况.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州二手房装修占比情况.png" alt="广州二手房装修占比情况">
+                            <div class="price">
+                                <span class="fr">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州二手房装修占比情况.png" target="_blank">
+                            <div class="name" style=" color: white">广州二手房装修占比情况</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+    <!-- 新房 -->
+<div class="wrapper">
+    <div class="preferred">
+        <div class="t-name">
+        </div>
+        <div class="list">
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/房源朝向分布情况.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/房源朝向分布情况.png" alt="房源朝向分布情况">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/房源朝向分布情况.png" target="_blank">
+                            <div class="name" style=" color: white">房源朝向分布情况</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            <div class="icon">
+                    <a class="icon_box" href="/static/images/广州二手房总价与建筑面积散点图.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+                            <img src="/static/images/广州二手房总价与建筑面积散点图.png" alt="广州二手房总价与建筑面积散点图">
+                            <div class="price">
+                                <span class="fr">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+                        <a href="/static/images/广州二手房总价与建筑面积散点图.png" target="_blank">
+                            <div class="name" style="color: white">广州二手房总价与建筑面积散点图</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="icon">
+                    <a class="icon_box" href="/static/images/广州各区域二手房单价箱线图.png" target="_blank">
+                        <div class="bg"></div>
+                        <div class="pic">
+{#                            <img src="/static/images/广州各区域二手房总价箱线图.png" alt="广州各区域二手房总价箱线图">#}
+                            <img src="/static/images/广州各区域二手房单价箱线图.png" alt="广州各区域二手房单价箱线图">
+                            <div class="price">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="titles">
+{#                        <a href="/static/images/广州各区域二手房单价箱线图.png" target="_blank">#}
+                        <a href="/static/images/广州各区域二手房单价箱线图.png" target="_blank">
+                            <div class="name" style="color: white">广州各区域二手房单价箱线图</div>
+                            <div class="roomtypes">
+                            </div>
+                            <div class="tips">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+function getHomeCookie(c_name){
+	if (document.cookie.length>0)
+	{
+	c_start=document.cookie.indexOf(c_name + "=")
+	if (c_start!=-1)
+		{
+		c_start=c_start + c_name.length+1
+		c_end=document.cookie.indexOf(";",c_start)
+		if (c_end==-1) c_end=document.cookie.length
+		return unescape(document.cookie.substring(c_start,c_end))
+		}
+	}
+	return ""
+}
+
+const lianjia_token = getHomeCookie("lianjia_token");
+let ucid = "";
+if (lianjia_token) {
+	$.ajax({
+		url: "/i/api/getUserInfo",
+		data:{
+			token: lianjia_token
+		},
+		type: 'POST',
+		async: false,
+		success: function(res){
+			var obj = res;
+			ucid = obj.info.id;
+		}
+	})
+}
+
+// 新埋点
+window._new_dig_action_PC = {
+	'action': {
+		'page_nation': '美国'
+	},
+	'pid': 'lianjia_pc_overseas',
+	'uicode': 'index_nation',
+	'cid': getHomeCookie("select_city"),
+};
+
+// 旧埋点
+window._old_dig_action_PC = {
+	'ljweb_channel_key': 'pc_pages_index_nation',
+	'action': {
+		'nation_id': "1"
+	},
+	'cid': getHomeCookie("select_city"),
+	'ucid': ucid
+};
+
+// run after body loaded
+var scriptsHtml = "".split(',');
+  var body = document.getElementsByTagName('body')[0];
+  for(var i = 0; i < scriptsHtml.length; i++) {
+    var src = scriptsHtml[i];
+    var el = document.createElement('script');
+    el.src = src;
+    body.appendChild(el);
+}
+</script>
+<div style="display:none">
+	<script src="//s1.ljcdn.com/hwke-pc-static/pc/statics/dep/lianjiaUlog.js?_v=f148ea11da7d55e4a49978254b67882042446514" crossorigin="anonymous"></script>
+	<script src="//s1.ljcdn.com/hwke-pc-static/pc/statics/dep/ljulog_view.js?_v=f148ea11da7d55e4a49978254b67882042446514" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>

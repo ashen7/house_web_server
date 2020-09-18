@@ -1,0 +1,2 @@
+model_checkpoint_path: "house_predict_model.ckpt"
+all_model_checkpoint_paths: "house_predict_model.ckpt"
