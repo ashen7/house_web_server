@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'house_web_server.urls' #主路由
+ROOT_URLCONF = 'house_web_serve.urls' #主路由
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'house_web_server.wsgi.application'
+WSGI_APPLICATION = 'house_web_serve.wsgi.application'
 
 
 # Database

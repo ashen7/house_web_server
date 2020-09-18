@@ -13,8 +13,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.externals import joblib
 
 # acc = cross_val_score(model, samples, labels, cv=10, scoring='accuracy', n_jobs=-1).mean()
-test_api = True  #True为视图调用路径，False为内部单独执行路径
-# test_api = False
+# test_api = True  #True为视图调用路径，False为内部单独执行路径
+test_api = False
 if test_api:
     house_data_file = "app/house_data_collection/data/广州二手房清洗后数据.csv"
 else:
@@ -287,8 +287,8 @@ def main():
                    '精装', '一梯两户','有']
     # 随机森林回归
     train_random_forest_regression(train_sample, train_label, test_sample, test_label)
-    # test_random_forest_regression(test_sample, test_label)
-    # random_forest_predict_total_price(source_data)
+    test_random_forest_regression(test_sample, test_label)
+    random_forest_predict_total_price(source_data)
 
 if __name__ == '__main__':
     main()
